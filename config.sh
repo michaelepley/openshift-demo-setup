@@ -4,6 +4,12 @@
 
 [[ -v CONFIGURATION_COMPLETED ]] && echo "Using preloaded configuration" && { return || exit ; }
 
+# demo configuration
+DEMO_INTERACTIVE=false
+DEMO_INTERACTIVE_PROMPT="Press enter to continue"
+DEMO_INTERACTIVE_PROMPT_TIMEOUT_SECONDS=10
+
+OPENSHIFT_CLUSTER_VERIFY_OPERATIONAL_STATUS=false
 OPENSHIFT_PRIMARY_AUTH_METHODS=(password kerberos token cert github giventoken)
 OPENSHIFT_OUTPUT_FORMATS=(json yaml)
 
@@ -35,6 +41,9 @@ echo "OK"
 
 if [ "$CONFIGURATION_DISPLAY" != "false" ]; then
 	echo "Configuration_______________________________________________"
+	echo "	DEMO_INTERACTIVE                        = ${DEMO_INTERACTIVE}"
+	echo "	DEMO_INTERACTIVE_PROMPT                 = ${DEMO_INTERACTIVE_PROMPT}"
+	echo "	DEMO_INTERACTIVE_PROMPT_TIMEOUT_SECONDS = ${DEMO_INTERACTIVE_PROMPT_TIMEOUT_SECONDS}"
 	echo "	DEMO_TARGET_OPENSHIFT_INSTANCE          = ${DEMO_TARGET_OPENSHIFT_INSTANCE}"
 	echo "	OPENSHIFT_DOMAIN_DEFAULT                = ${OPENSHIFT_DOMAIN_DEFAULT}"
 	echo "	OPENSHIFT_MASTER_PRIMARY_DEFAULT        = ${OPENSHIFT_MASTER_PRIMARY_DEFAULT}"
