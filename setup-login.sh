@@ -20,6 +20,8 @@ SCRIPT_ARG_PROJECT_DESCRIPTION=${OPENSHIFT_PROJECT_DESCRIPTION}
 SCRIPT_ARG_PROJECT_DISPLAY_NAME=${OPENSHIFT_PROJECT_DISPLAY_NAME}
 SCRIPT_ARG_AUTH_METHOD=${OPENSHIFT_AUTH_METHOD_PRIMARY_DEFAULT}
 SCRIPT_ARG_AUTH_PROXY=${OPENSHIFT_PROXY_AUTH_PRIMARY_DEFAULT}
+SCRIPT_ARG_AUTH_CHALLENGING_PROXY=${OPENSHIFT_CHALLENGING_PROXY_AUTH_PRIMARY_DEFAULT}
+
 SCRIPT_ARG_MASTER=${OPENSHIFT_MASTER_PRIMARY_DEFAULT}
 SCRIPT_ARG_MASTER_PORT_HTTPS=${OPENSHIFT_MASTER_PRIMARY_DEFAULT_PORT_HTTPS}
 
@@ -90,6 +92,11 @@ while true ; do
 				"") shift 2 ;;
 				*) SCRIPT_ARG_AUTH_PROXY=$2 ; shift 2 ;;
 			esac ;;
+		-c|--auth-challenging-proxy)
+			case "$2" in
+				"") shift 2 ;;
+				*) SCRIPT_ARG_AUTH_CHALLENGING_PROXY=$2 ; shift 2 ;;
+			esac ;;
 		-m|--master)
 			case "$2" in
 				"") shift 2 ;;
@@ -107,15 +114,16 @@ done
 
 if [ "$CONFIGURATION_SETUP_LOGIN_DISPLAY" != "false" ]; then
 	echo "Setup Login Configuration___________________________________"
-	echo "SCRIPT_ARG_REFERENCE= ${SCRIPT_ARG_REFERENCE}"
-	echo "SCRIPT_ARG_DOMAIN = ${SCRIPT_ARG_DOMAIN}"
-	echo "SCRIPT_ARG_USERNAME = ${SCRIPT_ARG_USERNAME}"
-	echo "SCRIPT_ARG_PASSWORD = ${SCRIPT_ARG_PASSWORD}"
-	echo "SCRIPT_ARG_PROJECT  = ${SCRIPT_ARG_PROJECT}"
-	echo "SCRIPT_ARG_AUTH_METHOD = ${SCRIPT_ARG_AUTH_METHOD}"
-	echo "SCRIPT_ARG_AUTH_PROXY = ${SCRIPT_ARG_AUTH_PROXY}"
-	echo "SCRIPT_ARG_MASTER = ${SCRIPT_ARG_MASTER}"
-	echo "SCRIPT_ARG_MASTER_PORT_HTTPS = ${SCRIPT_ARG_MASTER_PORT_HTTPS}"
+	echo "SCRIPT_ARG_REFERENCE              = ${SCRIPT_ARG_REFERENCE}"
+	echo "SCRIPT_ARG_DOMAIN                 = ${SCRIPT_ARG_DOMAIN}"
+	echo "SCRIPT_ARG_USERNAME               = ${SCRIPT_ARG_USERNAME}"
+	echo "SCRIPT_ARG_PASSWORD               = ${SCRIPT_ARG_PASSWORD}"
+	echo "SCRIPT_ARG_PROJECT                = ${SCRIPT_ARG_PROJECT}"
+	echo "SCRIPT_ARG_AUTH_METHOD            = ${SCRIPT_ARG_AUTH_METHOD}"
+	echo "SCRIPT_ARG_AUTH_PROXY             = ${SCRIPT_ARG_AUTH_PROXY}"
+	echo "SCRIPT_ARG_AUTH_CHALLENGING_PROXY = ${SCRIPT_ARG_AUTH_CHALLENGING_PROXY}"
+	echo "SCRIPT_ARG_MASTER                 = ${SCRIPT_ARG_MASTER}"
+	echo "SCRIPT_ARG_MASTER_PORT_HTTPS      = ${SCRIPT_ARG_MASTER_PORT_HTTPS}"
 	echo "____________________________________________________________"
 fi
 
@@ -126,6 +134,7 @@ echo -n "Verifying configuration ready..."
 : ${SCRIPT_ARG_PROJECT?}
 : ${SCRIPT_ARG_AUTH_METHOD?}
 : ${SCRIPT_ARG_AUTH_PROXY?}
+: ${SCRIPT_ARG_AUTH_CHALLENGING_PROXY?}
 : ${SCRIPT_ARG_MASTER?}
 : ${SCRIPT_ARG_MASTER_PORT_HTTPS?}
 echo "OK"
@@ -152,7 +161,8 @@ else
 			# token auth
 			echo "	--> Configuring for ${OPENSHIFT_PRIMARY_AUTH_METHODS[2]} authentication"
 			
-			{ [[ -v OPENSHIFT_USER_PRIMARY_TOKEN ]] || [[ -z ${OPENSHIFT_USER_PRIMARY_TOKEN} ]] ; } && { echo "	--> attempt to obtain the oauth authorization token from ${SCRIPT_ARG_AUTH_PROXY} automatically for user ${SCRIPT_ARG_USERNAME}" && OPENSHIFT_USER_PRIMARY_TOKEN=$(curl -sS -u "${SCRIPT_ARG_USERNAME}":"${SCRIPT_ARG_PASSWORD}" -kv -H "X-CSRF-Token:xxx" "https://${SCRIPT_ARG_AUTH_PROXY}/challenging-proxy/oauth/authorize?client_id=openshift-challenging-client&response_type=token" 2>&1 | sed -e '\|access_token|!d;s/.*access_token=\([-_[:alnum:]]*\).*/\1/') && echo "		-> token is ${OPENSHIFT_USER_PRIMARY_TOKEN}" ; }  
+#			{ [[ -v OPENSHIFT_USER_PRIMARY_TOKEN ]] || [[ -z ${OPENSHIFT_USER_PRIMARY_TOKEN} ]] ; } && { echo "	--> attempt to obtain the oauth authorization token from ${SCRIPT_ARG_AUTH_PROXY} automatically for user ${SCRIPT_ARG_USERNAME}" && OPENSHIFT_USER_PRIMARY_TOKEN=$(curl -sS -u "${SCRIPT_ARG_USERNAME}":"${SCRIPT_ARG_PASSWORD}" -kv -H "X-CSRF-Token:xxx" "https://${SCRIPT_ARG_AUTH_PROXY}/challenging-proxy/oauth/authorize?client_id=openshift-challenging-client&response_type=token" 2>&1 | sed -e '\|access_token|!d;s/.*access_token=\([-_[:alnum:]]*\).*/\1/') && echo "		-> token is ${OPENSHIFT_USER_PRIMARY_TOKEN}" ; }  
+			{ [[ -v OPENSHIFT_USER_PRIMARY_TOKEN ]] || [[ -z ${OPENSHIFT_USER_PRIMARY_TOKEN} ]] ; } && { echo "	--> attempt to obtain the oauth authorization token from ${SCRIPT_ARG_AUTH_PROXY} automatically for user ${SCRIPT_ARG_USERNAME}" && OPENSHIFT_USER_PRIMARY_TOKEN=$(curl -sS -u "${SCRIPT_ARG_USERNAME}":"${SCRIPT_ARG_PASSWORD}" -kv -H "X-CSRF-Token:xxx" "https://${SCRIPT_ARG_AUTH_PROXY}/${SCRIPT_ARG_AUTH_CHALLENGING_PROXY}oauth/authorize?client_id=openshift-challenging-client&response_type=token" 2>&1 | sed -e '\|access_token|!d;s/.*access_token=\([-_[:alnum:]]*\).*/\1/') && echo "		-> token is ${OPENSHIFT_USER_PRIMARY_TOKEN}" ; }  
 			{ [[ -v OPENSHIFT_USER_PRIMARY_TOKEN ]] && [[ -n ${OPENSHIFT_USER_PRIMARY_TOKEN} ]] ; } || { echo "Please set OPENSHIFT_USER_PRIMARY_TOKEN to your openshift login token" && exit 1; }
 			OPENSHIFT_PRIMARY_CEREDENTIALS_CLI_DEFAULT="--token ${OPENSHIFT_USER_PRIMARY_TOKEN}"
 			OPENSHIFT_PRIMARY_CEREDENTIALS_CLI=${OPENSHIFT_PRIMARY_CEREDENTIALS_CLI_DEFAULT}
