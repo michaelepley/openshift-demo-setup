@@ -34,6 +34,7 @@ OPENSHIFT_PRIMARY_CREDENTIALS_CLI_DEFAULT=
 [[ -v OPENSHIFT_RHTPSIO_USER_PASSWORD_DEFAULT_CIPHERTEXT ]] && echo "	--> Decrypting the script key" && { OPENSHIFT_RHTPSIO_USER_PASSWORD_DEFAULT_PLAINTEXT=`echo "${OPENSHIFT_RHTPSIO_USER_PASSWORD_DEFAULT_CIPHERTEXT}" | openssl enc -d -a -aes-256-cbc -k ${SCRIPT_ENCRYPTION_KEY}` || { echo "FAILED: Could not validate the password" && exit 1; } ; }
 
 # each user entry is an array of (username, password, auth-method default project, and any other projects)
+OPENSHIFT_USER_RHTPSIO_ADMIN=(admin ${OPENSHIFT_RHTPSIO_USER_PASSWORD_DEFAULT_PLAINTEXT} password admin-default)
 OPENSHIFT_USER_RHTPSIO_MEPLEY=(mepley ${OPENSHIFT_RHTPSIO_USER_PASSWORD_DEFAULT_PLAINTEXT} token mepley-default)
 OPENSHIFT_USER_RHTPSIO_MEPLEY_DEV=(mepley ${OPENSHIFT_RHTPSIO_USER_PASSWORD_DEFAULT_PLAINTEXT} token mepley-development)
 OPENSHIFT_USER_RHTPSIO_MEPLEY_TEST=(mepley ${OPENSHIFT_RHTPSIO_USER_PASSWORD_DEFAULT_PLAINTEXT} token mepley-testing)
