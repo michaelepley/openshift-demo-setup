@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 [[ -v CONFIGURATION_DEFAULT_COMPLETED ]] && echo "Using default configuration" && { return || exit ; }
 

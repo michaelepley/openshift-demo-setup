@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 # See https://mojo.redhat.com/docs/DOC-1099943
 # See https://open.paas.redhat.com/console/

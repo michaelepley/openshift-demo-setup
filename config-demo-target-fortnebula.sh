@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 . config-resources-available-all.sh || { echo "FAILED: Could not load available resource index" && exit 1; }
 

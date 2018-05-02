@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 [[ -v CONFIGURATION_RESOURCES_AVAILABLE_ALL_COMPLETED ]] && echo "	--> Using resources available configuration" && { return || exit ; }
 : ${CONFIGURATION_RESOURCES_AVAILABLE_ALL_DISPLAY:=$CONFIGURATION_DISPLAY}

@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # target is available at https://ocp.rhtps.io
 
 . config-resources-available-all.sh || { echo "FAILED: Could not load available resource index" && exit 1; }
