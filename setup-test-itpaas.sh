@@ -7,7 +7,7 @@
 : ${DEMO_INTERACTIVE_PROMPT_TIMEOUT_SECONDS:=30}
 
 DEMO_TARGET_OPENSHIFT_INSTANCES=(local rhsademo fortnebula itpaas nsabine-vrtx)
-# Target RHSADEMO
+# Target ITPAAS
 #DEMO_TARGET_OPENSHIFT_INSTANCE=${DEMO_TARGET_OPENSHIFT_INSTANCES[1]}
 DEMO_TARGET_OPENSHIFT_INSTANCE=${DEMO_TARGET_OPENSHIFT_INSTANCES[3]}
 #DEMO_TARGET_OPENSHIFT_INSTANCE=${DEMO_TARGET_OPENSHIFT_INSTANCES[4]}
@@ -22,15 +22,15 @@ pushd config >/dev/null 2>&1
 . ./config-resources-github.sh || { echo "FAILED: Could not configure github demo resources" && exit 1 ; }
 popd >/dev/null 2>&1
 
-[[ -v CONFIGURATION_DEMO_SETUP_TEST_RHSADEMO_COMPLETED ]] && echo "Using openshift demo setup test configuration" && { return || exit ; }
+[[ -v CONFIGURATION_DEMO_SETUP_TEST_ITPAAS_COMPLETED ]] && echo "Using openshift demo setup test configuration" && { return || exit ; }
 : ${CONFIGURATION_DEMO_OPENSHIFT_SIMPLE_DISPLAY:=$CONFIGURATION_DISPLAY}
 # uncomment to force these scripts to display coniguration information
 CONFIGURATION_OPENSHIFT_SETUP_TEST_DISPLAY=true
 
 # Demo specific configuration items
-# modify the user, or copy to new reference, then modufy
-#OPENSHIFT_USER_PROJECT_REF="OPENSHIFT_USER_RHSADEMO_MEPLEY[3]" && eval "${OPENSHIFT_USER_PROJECT_REF}=mepley-test-setup"
-: ${OPENSHIFT_PROJECT_TEST_SETUP_DEFAULT:=${OPENSHIFT_USER_RHSADEMO_MEPLEY[0]}-test-setup}
+# modify the user, or copy to new reference, then modify
+#OPENSHIFT_USER_PROJECT_REF="OPENSHIFT_USER_ITPAAS_MEPLEY[3]" && eval "${OPENSHIFT_USER_PROJECT_REF}=mepley-test-setup"
+: ${OPENSHIFT_PROJECT_TEST_SETUP_DEFAULT:=${OPENSHIFT_USER_ITPAAS_MEPLEY[0]}-test-setup}
 OPENSHIFT_PROJECT_TEST_SETUP=${OPENSHIFT_PROJECT_TEST_SETUP_DEFAULT}
 
 #OPENSHIFT_USER_REFERENCE_PRIMARY_DEFAULT
@@ -49,7 +49,7 @@ OPENSHIFT_PROJECT=${OPENSHIFT_PROJECT_TEST_SETUP}
 if [ "$CONFIGURATION_OPENSHIFT_SETUP_TEST_DISPLAY" != "false" ]; then
 	echo "Demo Openshift Simple Configuration_________________________"
 	echo "	OPENSHIFT_USER_REFERENCE_PRIMARY_DEFAULT = ${OPENSHIFT_USER_REFERENCE_PRIMARY_DEFAULT}"
-	echo "	OPENSHIFT_USER_RHSADEMO_MEPLEY           = ${OPENSHIFT_USER_RHSADEMO_MEPLEY[@]}"
+	echo "	OPENSHIFT_USER_ITPAAS_MEPLEY           = ${OPENSHIFT_USER_ITPAAS_MEPLEY[@]}"
 	echo "	OPENSHIFT_PROJECT_TEST_SETUP_DEFAULT     = ${OPENSHIFT_PROJECT_TEST_SETUP_DEFAULT}"
 	echo "	OPENSHIFT_PROJECT_TEST_SETUP             = ${OPENSHIFT_PROJECT_TEST_SETUP}"
 	echo "	OPENSHIFT_DOMAIN                         = ${OPENSHIFT_DOMAIN}"
@@ -65,7 +65,7 @@ if [ "$CONFIGURATION_OPENSHIFT_SETUP_TEST_DISPLAY" != "false" ]; then
 	echo "____________________________________________________________"
 fi
 
-CONFIGURATION_DEMO_SETUP_TEST_RHSADEMO_COMPLETED=true
+CONFIGURATION_DEMO_SETUP_TEST_ITPAAS_COMPLETED=true
 
 
 echo -n "Verifying configuration ready..."
