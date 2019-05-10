@@ -4,12 +4,10 @@
 
 . ./config.sh || { echo "FAILED: Could not verify configuration" && exit 1; }
 
-echo -n "Verifying configuration ready..."
-
 : ${CONFIGURATION_SETUP_LOGIN_DISPLAY:=$CONFIGURATION_DISPLAY}
 #CONFIGURATION_SETUP_LOGIN_DISPLAY=true
 
-echo "Just logs in"
+echo "Setup-login: logs into an openshift cluster "
 echo "	--> checking input parameters"
 # set defaults for required input parameters
 SCRIPT_ARG_DOMAIN=${OPENSHIFT_DOMAIN_DEFAULT}
@@ -38,6 +36,7 @@ SCRIPT_ARG_REFERENCE_PASSWORD_REF=${!SCRIPT_ARG_REFERENCE}[1]
 SCRIPT_ARG_REFERENCE_AUTH_METHOD_REF=${!SCRIPT_ARG_REFERENCE}[2]
 SCRIPT_ARG_REFERENCE_PROJECT_REF=${!SCRIPT_ARG_REFERENCE}[3]
 
+if [ "x${CONFIGURATION_SETUP_LOGIN_DISPLAY}" == "xtrue" ] ; then 
 echo "Reference decomposition______________________________________"
 echo "SCRIPT_ARG_REFERENCE_USERNAME_REF       = ${SCRIPT_ARG_REFERENCE_USERNAME_REF}"
 echo "SCRIPT_ARG_REFERENCE_PASSWORD_REF       = ${SCRIPT_ARG_REFERENCE_PASSWORD_REF}"
@@ -51,13 +50,13 @@ SCRIPT_ARG_PROJECT=${!SCRIPT_ARG_REFERENCE_PROJECT_REF}
 #else
 #	echo "_______________________________NO REFERENCE FOUND_________________________________"
 fi
+fi
 
 
 # read all other options -- see http://www.bahmanm.com/blogs/command-line-options-how-to-parse-in-bash-using-getopt 
 SCRIPT_COMMANDLINE_OPTIONS=`getopt -o d:u:p:r:a:x:m:n: --long domain:,username:,password:,reference:,auth-method:,auth-proxy:,master:,namespace: -n 'setup-login.sh' -- "$@"`
 eval set -- "$SCRIPT_COMMANDLINE_OPTIONS"
 
-set +x
 
 # extract options and their arguments into variables.
 while true ; do
@@ -112,7 +111,7 @@ while true ; do
 	esac
 done
 
-if [ "$CONFIGURATION_SETUP_LOGIN_DISPLAY" != "false" ]; then
+if [ "x$CONFIGURATION_SETUP_LOGIN_DISPLAY" == "xtrue" ]; then
 	echo "Setup Login Configuration___________________________________"
 	echo "SCRIPT_ARG_REFERENCE              = ${SCRIPT_ARG_REFERENCE}"
 	echo "SCRIPT_ARG_DOMAIN                 = ${SCRIPT_ARG_DOMAIN}"
@@ -127,7 +126,7 @@ if [ "$CONFIGURATION_SETUP_LOGIN_DISPLAY" != "false" ]; then
 	echo "____________________________________________________________"
 fi
 
-echo -n "Verifying configuration ready..."
+echo -n "Setup-login: Verifying configuration ready..."
 : ${SCRIPT_ARG_DOMAIN?}
 : ${SCRIPT_ARG_USERNAME?}
 : ${SCRIPT_ARG_PASSWORD?}

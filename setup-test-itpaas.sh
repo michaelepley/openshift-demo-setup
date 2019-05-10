@@ -6,11 +6,10 @@
 : ${DEMO_INTERACTIVE:=true}
 : ${DEMO_INTERACTIVE_PROMPT_TIMEOUT_SECONDS:=30}
 
-DEMO_TARGET_OPENSHIFT_INSTANCES=(local rhsademo fortnebula itpaas nsabine-vrtx)
-# Target ITPAAS
-#DEMO_TARGET_OPENSHIFT_INSTANCE=${DEMO_TARGET_OPENSHIFT_INSTANCES[1]}
-DEMO_TARGET_OPENSHIFT_INSTANCE=${DEMO_TARGET_OPENSHIFT_INSTANCES[3]}
-#DEMO_TARGET_OPENSHIFT_INSTANCE=${DEMO_TARGET_OPENSHIFT_INSTANCES[4]}
+#                                0     1        2        3          4      5            6         7         8
+DEMO_TARGET_OPENSHIFT_INSTANCES=(local rhsademo rhtps-io fortnebula itpaas nsabine-vrtx hattrick1 hattrick2 hattrick3)
+# Target HATTRICK1
+DEMO_TARGET_OPENSHIFT_INSTANCE=${DEMO_TARGET_OPENSHIFT_INSTANCES[4]}
 
 # assume we don't need to expressly verify the clusters operational status
 : ${OPENSHIFT_CLUSTER_VERIFY_OPERATIONAL_STATUS:=false}

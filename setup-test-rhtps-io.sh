@@ -6,8 +6,8 @@
 : ${DEMO_INTERACTIVE:=true}
 : ${DEMO_INTERACTIVE_PROMPT_TIMEOUT_SECONDS:=30}
 
-#                                0     1        2        3          4      5            6
-DEMO_TARGET_OPENSHIFT_INSTANCES=(local rhsademo rhtps-io fortnebula itpaas nsabine-vrtx hattrick1)
+#                                0     1        2        3          4      5            6         7         8
+DEMO_TARGET_OPENSHIFT_INSTANCES=(local rhsademo rhtps-io fortnebula itpaas nsabine-vrtx hattrick1 hattrick2 hattrick3)
 # Target RHTPS-IO
 DEMO_TARGET_OPENSHIFT_INSTANCE=${DEMO_TARGET_OPENSHIFT_INSTANCES[2]}
 

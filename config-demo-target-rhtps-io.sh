@@ -66,7 +66,8 @@ if [ "$CONFIGURATION_DEMO_TARGET_RHTPSIO_DISPLAY" != "false" ]; then
 	done
 	echo "	}"
 	echo "____________________________________________________________"
-	echo "	--> FYI: ssh access to rhsademo available vi jump.rhsademo.net" && echo "	--> Use: ssh -vvv -i ~/.ssh/id_rsa_openshift mepley@jump.rhsademo.net"
+	echo "	--> FYI: ssh access to OCP master available via ocp-master.rhtps.io via vpn.rhtps.io" && echo "	--> Use: ssh -vvv -i ~/.ssh/id_rsa_openshift -J vpn.rhtps.io mepley@ocp-master.rhtps.io"
+	echo "	--> FYI: ssh access to maintenance node available via nicks-workstation.vrtx.rhtps.io via vpn.rhtps.io" && echo "	--> Use: ssh -i ~/.ssh/id_rsa_openshift -J vpn.rhtps.io nicks-workstation.vrtx.rhtps.io"
 fi
 
 # overwrite  generic configuration with RHSAMEMO specific configuration

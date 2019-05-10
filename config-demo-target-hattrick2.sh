@@ -5,9 +5,6 @@
 [[ -v CONFIGURATION_DEMO_TARGET_HATTRICK1_COMPLETED ]] && echo "Using demo target HATTRICK1 configuration" && { return || exit ; }
 : ${CONFIGURATION_DEMO_TARGET_HATTRICK1_DISPLAY:=$CONFIGURATION_DISPLAY}
 
-# connecting remotely to hattrick:
-# sshuttle -r root@creynold.net:35596 192.168.1.0/24 --dns -e "ssh -i ~/.ssh/id_rsa_openshift"
-# go to https://ocp.int.hattrick.lab/console/   u: admin p: redhat 
 # https://osp-master-8d43.int.hattrick1.lab/console/
 
 # variables marked as "PRIMARY", "SECONDARY", etc denote available alternatives 
