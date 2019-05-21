@@ -6,8 +6,8 @@
 : ${DEMO_INTERACTIVE:=true}
 : ${DEMO_INTERACTIVE_PROMPT_TIMEOUT_SECONDS:=30}
 
-#                                0     1        2        3          4      5            6               7         8         9        
-DEMO_TARGET_OPENSHIFT_INSTANCES=(local rhsademo rhtps-io fortnebula itpaas nsabine-vrtx dan-redhatgovio hattrick1 hattrick2 hattrick3)
+#                                0     1        2        3          4      5            6               7                  8                   9         10        11 
+DEMO_TARGET_OPENSHIFT_INSTANCES=(local rhsademo rhtps-io fortnebula itpaas nsabine-vrtx dan-redhatgovio mepley-demo-redhatgovio geoint-redhatgovio  hattrick1 hattrick2 hattrick3)
 # Target DAN-REHATGOVIO
 DEMO_TARGET_OPENSHIFT_INSTANCE=${DEMO_TARGET_OPENSHIFT_INSTANCES[6]}
 
@@ -74,12 +74,14 @@ echo -n "Verifying configuration ready..."
 : ${OPENSHIFT_USER_REFERENCE?}
 : ${OPENSHIFT_PROJECT?}
 echo "OK"
-echo "Setup PHP Configuration_____________________________________"
+
+echo "Test demo setup for ${DEMO_TARGET_OPENSHIFT_INSTANCE}"
+
+echo "Sample Application Configuration_____________________________________"
 echo "	OPENSHIFT_USER_REFERENCE             = ${OPENSHIFT_USER_REFERENCE}"
 echo "	OPENSHIFT_PROJECT                    = ${OPENSHIFT_PROJECT}"
-echo "____________________________________________________________"
+echo "_____________________________________________________________________"
 
-echo "Test demo setup for rhsademo"
 echo "	--> Make sure we are logged in (to the right instance and as the right user)"
 pushd config >/dev/null 2>&1
 . ./setup-login.sh -r OPENSHIFT_USER_REFERENCE -n ${OPENSHIFT_PROJECT} || { echo "FAILED: Could not login" && exit 1; }

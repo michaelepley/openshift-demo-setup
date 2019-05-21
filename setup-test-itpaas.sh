@@ -74,10 +74,10 @@ echo -n "Verifying configuration ready..."
 : ${OPENSHIFT_USER_REFERENCE?}
 : ${OPENSHIFT_PROJECT?}
 echo "OK"
-echo "Setup PHP Configuration_____________________________________"
+echo "Sample Application Configuration_____________________________________"
 echo "	OPENSHIFT_USER_REFERENCE             = ${OPENSHIFT_USER_REFERENCE}"
 echo "	OPENSHIFT_PROJECT                    = ${OPENSHIFT_PROJECT}"
-echo "____________________________________________________________"
+echo "_____________________________________________________________________"
 
 echo "Test demo setup for rhsademo"
 echo "	--> Make sure we are logged in (to the right instance and as the right user)"

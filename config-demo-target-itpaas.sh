@@ -40,10 +40,10 @@ fi
 # assume a default key if the user did not supply one in time
 : ${SCRIPT_ENCRYPTION_KEY:=$OPENSHIFT_USER_PRIMARY_PASSWORD}
 
-[[ -v OPENSHIFT_ITPAAS_USER_PASSWORD_DEFAULT_PLAINTEXT ]] || [[ -v OPENSHIFT_ITPAAS_USER_PASSWORD_DEFAULT_CIPHERTEXT ]] || { echo "FAILED: OPENSHIFT_ITPAAS_USER_PASSWORD_DEFAULT_PLAINTEXT must be set and match a valid password for the openshift cluster ${OPENSHIFT_MASTER_ITPAAS_PRIMARY}"  ; }
-[[ -v OPENSHIFT_ITPAAS_USER_PASSWORD_DEFAULT_PLAINTEXT ]] && ! [[ -v OPENSHIFT_ITPAAS_USER_PASSWORD_DEFAULT_CIPHERTEXT ]] && echo "--> it is recommended to use an encrypted token; you may encrypt and store the token using the following: " && echo ' OPENSHIFT_ITPAAS_USER_PASSWORD_DEFAULT_CIPHERTEXT=`echo ${OPENSHIFT_ITPAAS_USER_PASSWORD_DEFAULT_PLAINTEXT} | openssl enc -e -a -aes-256-cbc -k "${SCRIPT_ENCRYPTION_KEY}"`'
-[[ -v OPENSHIFT_ITPAAS_USER_PASSWORD_DEFAULT_CIPHERTEXT ]] && { OPENSHIFT_ITPAAS_USER_PASSWORD_DEFAULT_PLAINTEXT=`echo "${OPENSHIFT_ITPAAS_USER_PASSWORD_DEFAULT_CIPHERTEXT}" | openssl enc -d -a -aes-256-cbc -k "${SCRIPT_ENCRYPTION_KEY}"` || { echo "FAILED: Could not validate the password" && exit 1; } ; }
-
+! [[ -v OPENSHIFT_ITPAAS_USER_PASSWORD_DEFAULT_CIPHERTEXT ]] && ! [[ -v OPENSHIFT_ITPAAS_USER_PASSWORD_DEFAULT_PLAINTEXT ]] && { echo -n "Enter password for ${OPENSHIFT_MASTER_ITPAAS_PRIMARY} : " && read -s OPENSHIFT_ITPAAS_USER_PASSWORD_DEFAULT_PLAINTEXT ; }
+[[ -v OPENSHIFT_ITPAAS_USER_PASSWORD_DEFAULT_PLAINTEXT ]] || { echo "FAILED: OPENSHIFT_ITPAAS_USER_PASSWORD_DEFAULT_PLAINTEXT must be set and match a valid password for the openshift cluster ${OPENSHIFT_MASTER_ITPAAS_PRIMARY}" && exit 1 ; }
+[[ -v OPENSHIFT_ITPAAS_USER_PASSWORD_DEFAULT_PLAINTEXT ]] && ! [[ -v OPENSHIFT_ITPAAS_USER_PASSWORD_DEFAULT_CIPHERTEXT ]] && echo "--> it is recommended to use an encrypted password; you may save the encrypted value OPENSHIFT_ITPAAS_USER_PASSWORD_DEFAULT_CIPHERTEXT=${OPENSHIFT_ITPAAS_USER_PASSWORD_DEFAULT_CIPHERTEXT} or you may encrypt and store the token using the following: " && echo ' OPENSHIFT_ITPAAS_USER_PASSWORD_DEFAULT_CIPHERTEXT=`echo ${OPENSHIFT_ITPAAS_USER_PASSWORD_DEFAULT_PLAINTEXT} | openssl enc -e -a -aes-256-cbc -k ${SCRIPT_ENCRYPTION_KEY}`'
+[[ -v OPENSHIFT_ITPAAS_USER_PASSWORD_DEFAULT_CIPHERTEXT ]] && echo "	--> Decrypting the script key" && { OPENSHIFT_ITPAAS_USER_PASSWORD_DEFAULT_PLAINTEXT=`echo "${OPENSHIFT_ITPAAS_USER_PASSWORD_DEFAULT_CIPHERTEXT}" | openssl enc -d -a -aes-256-cbc -k ${SCRIPT_ENCRYPTION_KEY}` || { echo "FAILED: Could not validate the password" && exit 1; } ; }
 
 
 # each user entry is an array of (username, password, auth-method default project, and any other projects)

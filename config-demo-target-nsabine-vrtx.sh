@@ -37,12 +37,10 @@ fi
 # assume a default key if the user did not supply one in time
 : ${SCRIPT_ENCRYPTION_KEY:=$OPENSHIFT_USER_PRIMARY_PASSWORD}
 
-[[ -v OPENSHIFT_VIRTX_NSABINE_USER_PASSWORD_DEFAULT_PLAINTEXT ]] || [[ -v OPENSHIFT_VIRTX_NSABINE_USER_PASSWORD_DEFAULT_CIPHERTEXT ]] || { echo "FAILED: OPENSHIFT_VIRTX_NSABINE_USER_PASSWORD_DEFAULT_PLAINTEXT must be set and match a valid GitHub.com Oauth2 personal access token with the following roles:" ; }
-#OPENSHIFT_VIRTX_NSABINE_USER_PASSWORD_DEFAULT_PLAINTEXT=`echo ${OPENSHIFT_VIRTX_NSABINE_USER_PASSWORD_DEFAULT_CIPHERTEXT} | openssl enc -d -a | openssl enc -d -aes-256-cbc -k ${SCRIPT_ENCRYPTION_KEY} `
-[[ -v OPENSHIFT_VIRTX_NSABINE_USER_PASSWORD_DEFAULT_PLAINTEXT ]] && echo "--> it is recommended to use an encrypted token; you may encrypt and store the token using the following: " && echo ' OPENSHIFT_VIRTX_NSABINE_USER_PASSWORD_DEFAULT_CIPHERTEXT=`echo ${OPENSHIFT_VIRTX_NSABINE_USER_PASSWORD_DEFAULT_PLAINTEXT} | openssl enc -e -aes-256-cbc -k ${SCRIPT_ENCRYPTION_KEY} | openssl enc -e -a`'
-: ${OPENSHIFT_VIRTX_NSABINE_USER_PASSWORD_DEFAULT_PLAINTEXT:-`echo ${OPENSHIFT_VIRTX_NSABINE_USER_PASSWORD_DEFAULT_CIPHERTEXT} | openssl enc -d -a | openssl enc -d -aes-256-cbc -k ${SCRIPT_ENCRYPTION_KEY}`} || { echo "FAILED: Could not validate the github token" && exit 1; }
-
-
+! [[ -v OPENSHIFT_MVIRTX_NSABINE_USER_PASSWORD_DEFAULT_CIPHERTEXT ]] && ! [[ -v OPENSHIFT_MVIRTX_NSABINE_USER_PASSWORD_DEFAULT_PLAINTEXT ]] && { echo -n "Enter password for ${OPENSHIFT_MASTER_MVIRTX_NSABINE_PRIMARY} : " && read -s OPENSHIFT_MVIRTX_NSABINE_USER_PASSWORD_DEFAULT_PLAINTEXT ; }
+[[ -v OPENSHIFT_MVIRTX_NSABINE_USER_PASSWORD_DEFAULT_PLAINTEXT ]] || { echo "FAILED: OPENSHIFT_MVIRTX_NSABINE_USER_PASSWORD_DEFAULT_PLAINTEXT must be set and match a valid password for the openshift cluster ${OPENSHIFT_MASTER_MVIRTX_NSABINE_PRIMARY}" && exit 1 ; }
+[[ -v OPENSHIFT_MVIRTX_NSABINE_USER_PASSWORD_DEFAULT_PLAINTEXT ]] && ! [[ -v OPENSHIFT_MVIRTX_NSABINE_USER_PASSWORD_DEFAULT_CIPHERTEXT ]] && echo "--> it is recommended to use an encrypted password; you may save the encrypted value OPENSHIFT_MVIRTX_NSABINE_USER_PASSWORD_DEFAULT_CIPHERTEXT=${OPENSHIFT_MVIRTX_NSABINE_USER_PASSWORD_DEFAULT_CIPHERTEXT} or you may encrypt and store the token using the following: " && echo ' OPENSHIFT_MVIRTX_NSABINE_USER_PASSWORD_DEFAULT_CIPHERTEXT=`echo ${OPENSHIFT_MVIRTX_NSABINE_USER_PASSWORD_DEFAULT_PLAINTEXT} | openssl enc -e -a -aes-256-cbc -k ${SCRIPT_ENCRYPTION_KEY}`'
+[[ -v OPENSHIFT_MVIRTX_NSABINE_USER_PASSWORD_DEFAULT_CIPHERTEXT ]] && echo "	--> Decrypting the script key" && { OPENSHIFT_MVIRTX_NSABINE_USER_PASSWORD_DEFAULT_PLAINTEXT=`echo "${OPENSHIFT_MVIRTX_NSABINE_USER_PASSWORD_DEFAULT_CIPHERTEXT}" | openssl enc -d -a -aes-256-cbc -k ${SCRIPT_ENCRYPTION_KEY}` || { echo "FAILED: Could not validate the password" && exit 1; } ; }
 
 
 # each user entry is an array of (username, password, auth-method default project, and any other projects)

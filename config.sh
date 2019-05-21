@@ -13,7 +13,7 @@ OPENSHIFT_CLUSTER_VERIFY_OPERATIONAL_STATUS=false
 OPENSHIFT_PRIMARY_AUTH_METHODS=(password kerberos token cert github giventoken)
 OPENSHIFT_OUTPUT_FORMATS=(json yaml)
 
-[[ -v ${DEMO_TARGET_OPENSHIFT_INSTANCES} ]] || DEMO_TARGET_OPENSHIFT_INSTANCES=(local rhsademo rhtps-io fortnebula itpaas nsabine-vrtx hattrick1)
+[[ -v ${DEMO_TARGET_OPENSHIFT_INSTANCES} ]] || DEMO_TARGET_OPENSHIFT_INSTANCES=(local rhsademo rhtps-io fortnebula itpaas nsabine-vrtx dan-redhatgovio mepley-demo-redhatgovio geoint-redhatgovio  hattrick1 hattrick2 hattrick3)
 
 # By default, Target RHSADEMO
 : ${DEMO_TARGET_OPENSHIFT_INSTANCE:=${DEMO_TARGET_OPENSHIFT_INSTANCES[1]}}

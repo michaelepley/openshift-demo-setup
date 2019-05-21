@@ -75,12 +75,14 @@ echo -n "Verifying configuration ready..."
 : ${OPENSHIFT_USER_REFERENCE?}
 : ${OPENSHIFT_PROJECT?}
 echo "OK"
-echo "Setup PHP Configuration_____________________________________"
+
+echo "Test demo setup for ${DEMO_TARGET_OPENSHIFT_INSTANCE}"
+
+echo "Sample Application Configuration_____________________________________"
 echo "	OPENSHIFT_USER_REFERENCE             = ${OPENSHIFT_USER_REFERENCE}"
 echo "	OPENSHIFT_PROJECT                    = ${OPENSHIFT_PROJECT}"
-echo "____________________________________________________________"
+echo "_____________________________________________________________________"
 
-echo "Test demo setup for hattrick1"
 echo "	--> Make sure we are logged in (to the right instance and as the right user)"
 pushd config >/dev/null 2>&1
 . ./setup-login.sh -r OPENSHIFT_USER_REFERENCE -n ${OPENSHIFT_PROJECT} || { echo "FAILED: Could not login" && exit 1; }
