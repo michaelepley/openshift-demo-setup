@@ -7,6 +7,9 @@
 
 . config-demo-default.sh
 
+#                                0     1        2        3          4      5            6               7                       8                         9                   10        11        12
+DEMO_TARGET_OPENSHIFT_INSTANCES=(local rhsademo rhtps-io fortnebula itpaas nsabine-vrtx dan-redhatgovio mepley-demo-redhatgovio mepley-shimmy-redhatgovio geoint-redhatgovio  hattrick1 hattrick2 hattrick3)
+
 : ${OPENSHIFT_USER_PRIMARY_DEFAULT?"FAILED: must specify the OPENSHIFT_USER_PRIMARY_DEFAULT"}
 
 OPENSHIFT_PROJECT_PRIMARY_DEMO_HELLOWORLD_DEFAULT=${OPENSHIFT_USER_PRIMARY_DEFAULT}-demo-helloworld
@@ -95,6 +98,7 @@ GITHUB_USERS=(michaelepley)
 
 if [ "$CONFIGURATION_RESOURCES_AVAILABLE_ALL_DISPLAY" != "false" ]; then
 	echo "Resources Available Configuration___________________________"
+	echo "	DEMO_TARGET_OPENSHIFT_INSTANCES = { ${DEMO_TARGET_OPENSHIFT_INSTANCES[*]} }"
 	echo "	OPENSHIFT_PROJECTS_DEFAULT = {"
 	for OPENSHIFT_PROJECT_DEFAULT in ${!OPENSHIFT_PROJECTS_DEFAULT[@]}; do
 		echo -n "		${OPENSHIFT_PROJECTS_DEFAULT[$OPENSHIFT_PROJECT_DEFAULT]} : "
