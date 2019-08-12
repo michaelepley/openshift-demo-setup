@@ -13,7 +13,7 @@ OPENSHIFT_CLUSTER_VERIFY_OPERATIONAL_STATUS=false
 OPENSHIFT_PRIMARY_AUTH_METHODS=(password kerberos token cert github giventoken)
 OPENSHIFT_OUTPUT_FORMATS=(json yaml)
 
-[[ -v ${DEMO_TARGET_OPENSHIFT_INSTANCES} ]] || DEMO_TARGET_OPENSHIFT_INSTANCES=(local rhsademo rhtps-io fortnebula itpaas nsabine-vrtx dan-redhatgovio mepley-demo-redhatgovio geoint-redhatgovio  hattrick1 hattrick2 hattrick3)
+[[ -v ${DEMO_TARGET_OPENSHIFT_INSTANCES} ]] || DEMO_TARGET_OPENSHIFT_INSTANCES=(local rhsademo rhtps-io fortnebula itpaas nsabine-vrtx dan-redhatgovio mepley-demo-redhatgovio mepley-run-redhatgovio mepley-shimmy-redhatgovio geoint-redhatgovio hattrick1 hattrick2 hattrick3)
 
 # By default, Target RHSADEMO
 : ${DEMO_TARGET_OPENSHIFT_INSTANCE:=${DEMO_TARGET_OPENSHIFT_INSTANCES[1]}}
@@ -24,6 +24,7 @@ OPENSHIFT_OUTPUT_FORMATS=(json yaml)
 : ${DEMO_TARGET_OPENSHIFT_INSTANCE?"Missing configuration for designated demo target"}
 
 CONFIGURATION_DEMO_TARGET_SCRIPT=config-demo-target-${DEMO_TARGET_OPENSHIFT_INSTANCE}.sh
+[ -f ${CONFIGURATION_DEMO_TARGET_SCRIPT} ] || { echo "FAILED: Missing demo target configuration script ${CONFIGURATION_DEMO_TARGET_SCRIPT}" && exit 1 ; }
 . ${CONFIGURATION_DEMO_TARGET_SCRIPT} || { echo "FAILED: Could not run demo target configuration script ${CONFIGURATION_DEMO_TARGET_SCRIPT}" && exit 1 ; }
 
 echo -n "Verifying minimum configuration options..."

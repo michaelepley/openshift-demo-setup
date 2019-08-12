@@ -6,10 +6,12 @@
 : ${DEMO_INTERACTIVE:=true}
 : ${DEMO_INTERACTIVE_PROMPT_TIMEOUT_SECONDS:=30}
 
-#                                0     1        2        3          4      5            6               7                       8                      9                         10                 11        12        13
-DEMO_TARGET_OPENSHIFT_INSTANCES=(local rhsademo rhtps-io fortnebula itpaas nsabine-vrtx dan-redhatgovio mepley-demo-redhatgovio mepley-run-redhatgovio mepley-shimmy-redhatgovio geoint-redhatgovio hattrick1 hattrick2 hattrick3)
-# Target MEPLEY-REHATGOVIO
-DEMO_TARGET_OPENSHIFT_INSTANCE=${DEMO_TARGET_OPENSHIFT_INSTANCES[7]}
+#                                0     1        2        3          4      5            6               7                       8                      9                         10                  11        12        13        
+DEMO_TARGET_OPENSHIFT_INSTANCES=(local rhsademo rhtps-io fortnebula itpaas nsabine-vrtx dan-redhatgovio mepley-demo-redhatgovio mepley-run-redhatgovio mepley-shimmy-redhatgovio geoint-redhatgovio  hattrick1 hattrick2 hattrick3)
+# Target MEPLEY_RUN_REHATGOVIO
+DEMO_TARGET_OPENSHIFT_INSTANCE=${DEMO_TARGET_OPENSHIFT_INSTANCES[8]}
+
+echo ${DEMO_TARGET_OPENSHIFT_INSTANCE}
 
 # assume we don't need to expressly verify the clusters operational status
 : ${OPENSHIFT_CLUSTER_VERIFY_OPERATIONAL_STATUS:=false}
@@ -21,17 +23,15 @@ pushd config >/dev/null 2>&1
 . ./config-resources-github.sh || { echo "FAILED: Could not configure github demo resources" && exit 1 ; }
 popd >/dev/null 2>&1
 
-
-
-[[ -v CONFIGURATION_DEMO_SETUP_TEST_MEPLEY_DEMO_REDHATGOVIO_COMPLETED ]] && echo "Using openshift demo setup test configuration" && { return || exit ; }
+[[ -v CONFIGURATION_DEMO_SETUP_TEST_MEPLEY_RUN_REDHATGOVIO_COMPLETED ]] && echo "Using openshift demo setup test configuration" && { return || exit ; }
 : ${CONFIGURATION_DEMO_OPENSHIFT_SIMPLE_DISPLAY:=$CONFIGURATION_DISPLAY}
-# uncomment to force these scripts to display coniguration information
+# uncomment to force these scripts to display configuration information
 CONFIGURATION_OPENSHIFT_SETUP_TEST_DISPLAY=true
 
 # Demo specific configuration items
 # modify the user, or copy to new reference, then modify
-#OPENSHIFT_USER_PROJECT_REF="OPENSHIFT_USER_MEPLEY_DEMO_REDHATGOVIO_ADMIN[3]" && eval "${OPENSHIFT_USER_PROJECT_REF}=mepley-test-setup"
-: ${OPENSHIFT_PROJECT_TEST_SETUP_DEFAULT:=${OPENSHIFT_USER_MEPLEY_DEMO_REDHATGOVIO_ADMIN[0]}-test-setup}
+#OPENSHIFT_USER_PROJECT_REF="OPENSHIFT_USER_MEPLEY_RUN_REDHATGOVIO_ADMIN[3]" && eval "${OPENSHIFT_USER_PROJECT_REF}=mepley-test-setup"
+: ${OPENSHIFT_PROJECT_TEST_SETUP_DEFAULT:=${OPENSHIFT_USER_MEPLEY_RUN_REDHATGOVIO_ADMIN[0]}-test-setup}
 OPENSHIFT_PROJECT_TEST_SETUP=${OPENSHIFT_PROJECT_TEST_SETUP_DEFAULT}
 
 #OPENSHIFT_USER_REFERENCE_PRIMARY_DEFAULT
@@ -50,7 +50,7 @@ OPENSHIFT_PROJECT=${OPENSHIFT_PROJECT_TEST_SETUP}
 if [ "$CONFIGURATION_OPENSHIFT_SETUP_TEST_DISPLAY" != "false" ]; then
 	echo "Demo Openshift Simple Configuration_________________________"
 	echo "	OPENSHIFT_USER_REFERENCE_PRIMARY_DEFAULT = ${OPENSHIFT_USER_REFERENCE_PRIMARY_DEFAULT}"
-	echo "	OPENSHIFT_USER_MEPLEY_DEMO_REDHATGOVIO_ADMIN           = ${OPENSHIFT_USER_MEPLEY_DEMO_REDHATGOVIO_ADMIN[@]}"
+	echo "	OPENSHIFT_USER_MEPLEY_RUN_REDHATGOVIO_ADMIN           = ${OPENSHIFT_USER_MEPLEY_RUN_REDHATGOVIO_ADMIN[@]}"
 	echo "	OPENSHIFT_PROJECT_TEST_SETUP_DEFAULT     = ${OPENSHIFT_PROJECT_TEST_SETUP_DEFAULT}"
 	echo "	OPENSHIFT_PROJECT_TEST_SETUP             = ${OPENSHIFT_PROJECT_TEST_SETUP}"
 	echo "	OPENSHIFT_DOMAIN                         = ${OPENSHIFT_DOMAIN}"
@@ -66,7 +66,7 @@ if [ "$CONFIGURATION_OPENSHIFT_SETUP_TEST_DISPLAY" != "false" ]; then
 	echo "____________________________________________________________"
 fi
 
-CONFIGURATION_DEMO_SETUP_TEST_MEPLEY_DEMO_REDHATGOVIO_COMPLETED=true
+CONFIGURATION_DEMO_SETUP_TEST_MEPLEY_RUN_REDHATGOVIO_COMPLETED=true
 
 
 echo -n "Verifying configuration ready..."

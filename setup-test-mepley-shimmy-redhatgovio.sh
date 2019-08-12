@@ -10,9 +10,9 @@
 # assume we don't need to expressly verify the clusters operational status
 : ${OPENSHIFT_CLUSTER_VERIFY_OPERATIONAL_STATUS:=false}
 
-#                                0     1        2        3          4      5            6               7                       8                         9                   10        11        12
-DEMO_TARGET_OPENSHIFT_INSTANCES=(local rhsademo rhtps-io fortnebula itpaas nsabine-vrtx dan-redhatgovio mepley-demo-redhatgovio mepley-shimmy-redhatgovio geoint-redhatgovio  hattrick1 hattrick2 hattrick3)
-DEMO_TARGET_OPENSHIFT_INSTANCE=${DEMO_TARGET_OPENSHIFT_INSTANCES[8]}
+#                                0     1        2        3          4      5            6               7                       8                      9                         10                  11        12        13        
+DEMO_TARGET_OPENSHIFT_INSTANCES=(local rhsademo rhtps-io fortnebula itpaas nsabine-vrtx dan-redhatgovio mepley-demo-redhatgovio mepley-run-redhatgovio mepley-shimmy-redhatgovio geoint-redhatgovio  hattrick1 hattrick2 hattrick3)
+DEMO_TARGET_OPENSHIFT_INSTANCE=${DEMO_TARGET_OPENSHIFT_INSTANCES[9]}
 echo "${DEMO_TARGET_OPENSHIFT_INSTANCE}"
 
 # Configuration
