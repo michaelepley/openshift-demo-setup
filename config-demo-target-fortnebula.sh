@@ -35,9 +35,9 @@ fi
 : ${SCRIPT_ENCRYPTION_KEY:=$OPENSHIFT_USER_PRIMARY_PASSWORD}
 
 [[ -v OPENSHIFT_FORTNEBULA_USER_PASSWORD_DEFAULT_PLAINTEXT ]] || [[ -v OPENSHIFT_FORTNEBULA_USER_PASSWORD_DEFAULT_CIPHERTEXT ]] || { echo "FAILED: OPENSHIFT_FORTNEBULA_USER_PASSWORD_DEFAULT_PLAINTEXT must be set and match a valid GitHub.com Oauth2 personal access token with the following roles:" ; }
-#OPENSHIFT_FORTNEBULA_USER_PASSWORD_DEFAULT_PLAINTEXT=`echo ${OPENSHIFT_FORTNEBULA_USER_PASSWORD_DEFAULT_CIPHERTEXT} | openssl enc -d -a | openssl enc -d -aes-256-cbc -k ${SCRIPT_ENCRYPTION_KEY} `
+#OPENSHIFT_FORTNEBULA_USER_PASSWORD_DEFAULT_PLAINTEXT=`echo ${OPENSHIFT_FORTNEBULA_USER_PASSWORD_DEFAULT_CIPHERTEXT} | openssl enc -d -pbkdf2 -salt -a | openssl enc -d -pbkdf2 -salt -aes-256-cbc -k ${SCRIPT_ENCRYPTION_KEY} `
 [[ -v OPENSHIFT_FORTNEBULA_USER_PASSWORD_DEFAULT_PLAINTEXT ]] && echo "--> it is recommended to use an encrypted token; you may encrypt and store the token using the following: " && echo ' OPENSHIFT_FORTNEBULA_USER_PASSWORD_DEFAULT_CIPHERTEXT=`echo ${OPENSHIFT_FORTNEBULA_USER_PASSWORD_DEFAULT_PLAINTEXT} | openssl enc -e -aes-256-cbc -k ${SCRIPT_ENCRYPTION_KEY} | openssl enc -e -a`'
-: ${OPENSHIFT_FORTNEBULA_USER_PASSWORD_DEFAULT_PLAINTEXT:-`echo ${OPENSHIFT_FORTNEBULA_USER_PASSWORD_DEFAULT_CIPHERTEXT} | openssl enc -d -a | openssl enc -d -aes-256-cbc -k ${SCRIPT_ENCRYPTION_KEY}`} || { echo "FAILED: Could not validate the github token" && exit 1; }
+: ${OPENSHIFT_FORTNEBULA_USER_PASSWORD_DEFAULT_PLAINTEXT:-`echo ${OPENSHIFT_FORTNEBULA_USER_PASSWORD_DEFAULT_CIPHERTEXT} | openssl enc -d -pbkdf2 -salt -a | openssl enc -d -pbkdf2 -salt -aes-256-cbc -k ${SCRIPT_ENCRYPTION_KEY}`} || { echo "FAILED: Could not validate the github token" && exit 1; }
 
 
 
